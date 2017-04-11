@@ -32,8 +32,16 @@ sys.path.append(('/home/wojasinho/Projects/apars/Apars/'))
 file = open('adv_database.php?adv_id=65438')
 
 while True:
+    line = file.readline()
+    line = line.lstrip()
+    print (line)
 
-    line=file.readline()
-    line=file.lstrip()
-    True
+    # Skip white line
+    if len(line)==0 :
+        continue
+    if line[0:8]=='Synopsis':
+        Synopsis = line
+        print (line)
+    else:
+        continue
 
