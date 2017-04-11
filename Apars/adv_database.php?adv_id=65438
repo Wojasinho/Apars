@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang=en><head>
+<meta content="webmaster@secintel.ibm.com" name=owner>
+<meta content="internal use only" name=security>
+<meta content="copyright (c) 2004 IBM corporation" name=copyright>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+
+<script src="/js/jquery-2.1.0.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/w3/ui/v8/css/v4-screen.css" />
+<link rel="stylesheet" type="text/css" href="/w3_shared/css/default.css" />
+<link rel="shortcut icon" href="/w3_shared/images/favicon.ico" />
+<style type="text/css" media="all">
+<!--
+@import url("/css/w3/ui/v8/css/screen.css");
+@import url("/css/w3/ui/v8/css/interior.css");
+@import url("/css/w3/ui/v8/css/icons.css");
+@import url("/css/w3/ui/v8/css/tables.css");
+
+        #article-illo {width:140px;}
+        #content-main .sidebar-left {padding:0;}
+        #content-main .sidebar-left h2 {margin:0;}
+        #content-main .sidebar-left p,
+        #content-main .sidebar-left ol,
+        #content-main .sidebar-left ul {margin:.5em;}
+
+        #content-sidebar .color-block#callout {border:1px solid #ccc; background:#fff;}
+        #content-sidebar .color-block#callout .headline {padding:.5em 5px 1.5em 50px; font-weight:bold;}
+        #content-sidebar .color-block#profile {background:#def;}
+        #content-sidebar .color-block#profile h3 {margin:.5em;}
+        #content-sidebar .color-block#profile h4 {margin:.5em;}
+        #content-sidebar .color-block#profile p {margin:.5em;}
+        #content-sidebar .color-block#profile .hrule-dots {margin:.5em;}
+
+			.nav-right { padding:5px 0 5px 0; color:#000;}
+
+			.nav-right a, 
+			.nav-right-1 a, 
+			.nav-right-2 a, 
+			.nav-right-3 a {display:block; margin:0; 
+				padding:5px 0 5px 0; 
+				border-top:1px dotted #ccc;
+				color:#000;
+			} 
+
+			.nav-right   {padding-left:8px; font-weight: bold;} 
+			.nav-right-1 {padding-left:16px;} 
+			.nav-right-2 {padding-left:24px;} 
+			.nav-right-3 {padding-left:32px;} 
+
+			#right-nav	{color:#000; text-decoration:none; background: #bcf; padding-right: 3px }
+			#right-nav a	{color:#000; text-decoration:none;} 
+			#right-nav a:hover	{text-decoration:underline; color:#000; background:#eee;} 
+			#right-nav a.active:hover	{text-decoration:none; color:#000; background:#fff;} 
+
+      .error { color: #D8000C; background-color: #FFBABA; }
+
+      .left-marginal { position:relative; margin-left:160px; margin-right:auto; }
+      .marginal-header { position:absolute; left:-150px; font-weight:bold; }
+      .emailtext { font-family: 'Courier New', monospace; font-size: 12px};
+-->
+</style>
+<!-- print stylesheet MUST follow imported stylesheets -->
+<link rel="stylesheet" type="text/css" media="print" href="/css/w3/ui/v8/css/print.css"/>
+
+<title> IBM Security Advisories :: Database </title>
+
+</head>
+<body id="w3-ibm-com" class="article">
+<NOINDEX>
+<!-- start masthead -->
+<div id="masthead">
+        <h2 class="access">Start of masthead</h2>
+        <div id="prt-w3-sitemark"><img src="/images/w3/ui/v8/images/id-w3-sitemark-simple.gif" alt="" width="54" height="33" /></div>
+        <div id="prt-ibm-logo"><img src="/images/w3/ui/v8/images/id-ibm-logo-black.gif" alt="IBM Logo" width="44" height="15" /></div>
+        <div id="w3-sitemark"><img src="/images/w3/ui/v8/images/id-w3-sitemark-large.gif" alt="" width="266" height="70" usemap="#sitemark_map" /><map id="sitemark_map" name="sitemark_map"><area shape="rect" alt="Link to W3 Home Page" coords="0,0,130,70" href="http://w3.ibm.com/"  accesskey="1" /></map></div>
+        <!-- <div id="personalization-links"><a id="profile-settings" href="/eworkplace/portal/Login.jsp">Sign in</a></div> -->
+<div id='site-title-only'> IBM Security Advisories :: Database </div> 
+        <div id="ibm-logo"><img src="/images/w3/ui/v8/images/id-ibm-logo.gif" alt="IBM Logo" width="44" height="15" /></div>
+        <div id="persistent-nav"><a id="w3home" href="//w3.ibm.com/"> w3 Home </a><a id="bluepages" href="http://w3.ibm.com/bluepages/"> <nop>BluePages </a><a id="helpnow" href="http://w3.ibm.com/help/"> <nop>HelpNow </a><a id="feedback" href="/w3_shared/feedback.php" accesskey="9"> Feedback </a></div>
+        <div id="browser-warning"><img src="/images/w3/ui/v8/images/icon-system-status-alert.gif" alt="Error" width="12" height="10" /> This Web page is best used in a modern browser. Since your browser is no longer supported by IBM, please upgrade your web browser at the <a href="http://w3.ibm.com/download/">ISSI site</a>.  You can also download an excellent browser at <a href="http://www.mozilla.org/">mozilla.org</a>.</div>
+</div>
+<!-- stop masthead -->
+
+<!-- start content -->
+<div id="content">
+<table border=0 cellspacing=0 cellpadding=0>
+<tr><td width='100%' valign='top'>
+</NOINDEX>
+
+
+
+
+
+<!-- Subheader -->
+<div id="content-head">
+<!-- 	<p id="date-stamp">Updated on: 27 December 2007</p> -->
+	<p id="date-stamp"></p>
+	<div class="hrule-dots">&nbsp;</div>
+	<p id="breadcrumbs"></p>
+</div>
+<p class="bar-blue-med-light">Advisory Header Information</p><table border=1 cellpadding=2><tr><td width=100><p class="subhead">Advisory ID: </td><td colspan=2><h3>MSS-OAR-E01-2016:2072.1</td></tr><tr><td><p class="subhead">Title: </td><td colspan=2><h3>[RHSA-2016:0760-01] Moderate: file security, bug fix,	and enhancement update</td></tr><tr><td><p class="subhead">Category: </td><td colspan=2><h3>Red Hat Linux</b></td></tr><tr><td><p class="subhead">Rating: </td><td><table><thead><th>Group 1</th><th>Group 3/4</th><th></th></thead><tr></td><td bgcolor="#aacc99"><h3 align=center class="group1 rating">Low</h3></td></td><td bgcolor="#aacc99"><h3 align=center class="rating">Low</h3></td><td><table border=1><tr><td><h4>Vulnerability Rationale:</h4></td><td bgcolor=#eeee99>remote attacker can access data</td></tr><tr><td><h4>Exploit Rationale:</h4></td><td bgcolor=#aacc99>no known exploit</td></tr><tr><td><h4>User Interaction:</h4></td><td>not required</td></tr></table></td></tr></table></td></tr><tr><tr><td><p class="subhead">ISS Advisory Publish Date:</td><td colspan=2 style="vertical-align:middle">11-May-2016 14:01</td></tr><tr><td><p class="subhead">ITCS104 Implementation Deadlines: </td><td colspan=2><table border=0 cellspacing=2 cellpadding=2 class="duedates" ><CAPTION align=top><p class='second-head'></p><BR></CAPTION><tr bgcolor='#f0f0ff'><TR>
+<TD ALIGN='center'><B>System Type<B></TD><TD ALIGN='center'><B>Due Date<B></TD><TD ALIGN='center'><B>Rating<B></TD></tr><tr bgcolor='#d0d0ff'><TD nowrap>Group 1 Internet Systems</TD>
+<TD>10-Jun-2016 14:01</TD>
+<TD 
+					BGCOLOR='#aacc99'>Low</TD>
+</tr><tr bgcolor='#f0f0ff'><TD nowrap>Group 3/4 Internet Systems</TD>
+<TD>10-Jun-2016 14:01</TD>
+<TD 
+					BGCOLOR='#aacc99'>Low</TD>
+</tr><tr bgcolor='#d0d0ff'><TD nowrap>Disaster Recovery Applicable Systems</TD>
+<TD>07-Nov-2016 14:01</TD>
+<TD 
+					BGCOLOR='#aacc99'>Low</TD>
+</tr><tr bgcolor='#f0f0ff'><TD nowrap>Inter-Enterprise Services</TD>
+<TD>11-May-2017 14:01</TD>
+<TD 
+					BGCOLOR='#aacc99'>Low</TD>
+</tr><tr bgcolor='#d0d0ff'><TD nowrap>Production and Network Infrastructure Components</TD>
+<TD>11-May-2017 14:01</TD>
+<TD 
+					BGCOLOR='#aacc99'>Low</TD>
+</tr></table></td></tr><tr><td><p class="subhead">Other Information: </td><td colspan=2><ul><li><a href="/advisory_history.php?adv_id=65438">Show audit history</li><li><a href="/manage/admin_access.php?adv_id=65438">Admin Functions</a> **authentication required</li><li><a href="https://w3.ibm.com/tools/adt/login.do?mssID=MSS-OAR-E01-2016:2072">Global Repository Metadata</a> **authentication required<br/>(The GR link may not be active for up to two hours<br>after the ISS Advisory Publish Time while the advisory<br>metadata is being finalized.)</li></ul></td></tr></table>
+<br/><p class="bar-blue-med-light">Vendor Advisory Text</p><PRE width='100'>-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+=====================================================================
+                   Red Hat Security Advisory
+
+Synopsis:          Moderate: file security, bug fix, and enhancement update
+Advisory ID:       RHSA-2016:0760-01
+Product:           Red Hat Enterprise Linux
+Advisory URL:      <a href="https://rhn.redhat.com/errata/RHSA-2016-0760.html">https://rhn.redhat.com/errata/RHSA-2016-0760.html</a>
+Issue date:        2016-05-10
+CVE Names:         <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3538">CVE-2014-3538</a> <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3587">CVE-2014-3587</a> <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3710">CVE-2014-3710</a> 
+                   <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-8116">CVE-2014-8116</a> <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-8117">CVE-2014-8117</a> <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-9620">CVE-2014-9620</a> 
+                   <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-9653">CVE-2014-9653</a> 
+=====================================================================
+
+1. Summary:
+
+An update for file is now available for Red Hat Enterprise Linux 6.
+
+Red Hat Product Security has rated this update as having a security impact
+of Moderate. A Common Vulnerability Scoring System (CVSS) base score, which
+gives a detailed severity rating, is available for each vulnerability from
+the CVE link(s) in the References section.
+
+2. Relevant releases/architectures:
+
+Red Hat Enterprise Linux Desktop (v. 6) - i386, x86_64
+Red Hat Enterprise Linux Desktop Optional (v. 6) - i386, x86_64
+Red Hat Enterprise Linux HPC Node (v. 6) - x86_64
+Red Hat Enterprise Linux HPC Node Optional (v. 6) - x86_64
+Red Hat Enterprise Linux Server (v. 6) - i386, ppc64, s390x, x86_64
+Red Hat Enterprise Linux Server Optional (v. 6) - i386, ppc64, s390x, x86_64
+Red Hat Enterprise Linux Workstation (v. 6) - i386, x86_64
+Red Hat Enterprise Linux Workstation Optional (v. 6) - i386, x86_64
+
+3. Description:
+
+The file command is used to identify a particular file according to the
+type of data the file contains. It can identify many different file types,
+including Executable and Linkable Format (ELF) binary files, system
+libraries, RPM packages, and different graphics formats.
+
+Security Fix(es):
+
+* Multiple flaws were found in the file regular expression rules for
+detecting various files. A remote attacker could use these flaws to cause
+file to consume an excessive amount of CPU. (<a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3538">CVE-2014-3538</a>)
+
+* A denial of service flaw was found in the way file parsed certain
+Composite Document Format (CDF) files. A remote attacker could use this
+flaw to crash file via a specially crafted CDF file. (<a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3587">CVE-2014-3587</a>)
+
+* Multiple flaws were found in the way file parsed Executable and Linkable
+Format (ELF) files. A remote attacker could use these flaws to cause file
+to crash, disclose portions of its memory, or consume an excessive amount
+of system resources. (<a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3710">CVE-2014-3710</a>, <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-8116">CVE-2014-8116</a>, <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-8117">CVE-2014-8117</a>,
+<a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-9620">CVE-2014-9620</a>, <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-9653">CVE-2014-9653</a>)
+
+Red Hat would like to thank Thomas Jarosch (Intra2net AG) for reporting
+<a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-8116">CVE-2014-8116</a> and <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-8117">CVE-2014-8117</a>. The <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3538">CVE-2014-3538</a> issue was discovered by
+Jan Kalu&Aring;&frac34;a (Red Hat Web Stack Team) and the <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3710">CVE-2014-3710</a> issue was
+discovered by Francisco Alonso (Red Hat Product Security).
+
+For detailed information on changes in this release, see the Red Hat
+Enterprise Linux 6.8 Release Notes and Red Hat Enterprise Linux 6.8
+Technical Notes linked from the References section.
+
+4. Solution:
+
+For details on how to apply this update, which includes the changes
+described in this advisory, refer to:
+
+<a href="https://access.redhat.com/articles/11258">https://access.redhat.com/articles/11258</a>
+
+5. Bugs fixed (<a href="https://bugzilla.redhat.com/">https://bugzilla.redhat.com/</a>):
+
+809898 - RFE: add detection of Python bytecode for recent versions of Python
+1080453 - file: incorrectly applied magic/Magdir patch [rhel-6]
+1098222 - <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3538">CVE-2014-3538</a> file: unrestricted regular expression matching
+1128587 - <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3587">CVE-2014-3587</a> file: incomplete fix for <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2012-1571">CVE-2012-1571</a> in cdf_read_property_info
+1154802 - file reports &quot;data&quot; instead of zip file when the first file zipped is a file named &quot;mime&quot;
+1155071 - <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3710">CVE-2014-3710</a> file: out-of-bounds read in elf note headers
+1169509 - file: report full java version for 1.7 and 1.8 class files
+1171580 - <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-8116">CVE-2014-8116</a> file: multiple denial of service issues (resource consumption)
+1174606 - <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-8117">CVE-2014-8117</a> file: denial of service issue (resource consumption)
+1180639 - <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-9620">CVE-2014-9620</a> file: limit the number of ELF notes processed
+1190116 - <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-9653">CVE-2014-9653</a> file: malformed elf file causes access to uninitialized memory
+1243650 - If we execute the file command against /var/log/messages then we see &quot;/var/log/messages: ASCII Pascal program text&quot;  ?
+
+6. Package List:
+
+Red Hat Enterprise Linux Desktop (v. 6):
+
+Source:
+file-5.04-30.el6.src.rpm
+
+i386:
+file-5.04-30.el6.i686.rpm
+file-debuginfo-5.04-30.el6.i686.rpm
+file-libs-5.04-30.el6.i686.rpm
+python-magic-5.04-30.el6.i686.rpm
+
+x86_64:
+file-5.04-30.el6.x86_64.rpm
+file-debuginfo-5.04-30.el6.i686.rpm
+file-debuginfo-5.04-30.el6.x86_64.rpm
+file-libs-5.04-30.el6.i686.rpm
+file-libs-5.04-30.el6.x86_64.rpm
+python-magic-5.04-30.el6.x86_64.rpm
+
+Red Hat Enterprise Linux Desktop Optional (v. 6):
+
+i386:
+file-debuginfo-5.04-30.el6.i686.rpm
+file-devel-5.04-30.el6.i686.rpm
+file-static-5.04-30.el6.i686.rpm
+
+x86_64:
+file-debuginfo-5.04-30.el6.i686.rpm
+file-debuginfo-5.04-30.el6.x86_64.rpm
+file-devel-5.04-30.el6.i686.rpm
+file-devel-5.04-30.el6.x86_64.rpm
+file-static-5.04-30.el6.x86_64.rpm
+
+Red Hat Enterprise Linux HPC Node (v. 6):
+
+Source:
+file-5.04-30.el6.src.rpm
+
+x86_64:
+file-5.04-30.el6.x86_64.rpm
+file-debuginfo-5.04-30.el6.i686.rpm
+file-debuginfo-5.04-30.el6.x86_64.rpm
+file-libs-5.04-30.el6.i686.rpm
+file-libs-5.04-30.el6.x86_64.rpm
+python-magic-5.04-30.el6.x86_64.rpm
+
+Red Hat Enterprise Linux HPC Node Optional (v. 6):
+
+x86_64:
+file-debuginfo-5.04-30.el6.i686.rpm
+file-debuginfo-5.04-30.el6.x86_64.rpm
+file-devel-5.04-30.el6.i686.rpm
+file-devel-5.04-30.el6.x86_64.rpm
+file-static-5.04-30.el6.x86_64.rpm
+
+Red Hat Enterprise Linux Server (v. 6):
+
+Source:
+file-5.04-30.el6.src.rpm
+
+i386:
+file-5.04-30.el6.i686.rpm
+file-debuginfo-5.04-30.el6.i686.rpm
+file-devel-5.04-30.el6.i686.rpm
+file-libs-5.04-30.el6.i686.rpm
+python-magic-5.04-30.el6.i686.rpm
+
+ppc64:
+file-5.04-30.el6.ppc64.rpm
+file-debuginfo-5.04-30.el6.ppc.rpm
+file-debuginfo-5.04-30.el6.ppc64.rpm
+file-devel-5.04-30.el6.ppc.rpm
+file-devel-5.04-30.el6.ppc64.rpm
+file-libs-5.04-30.el6.ppc.rpm
+file-libs-5.04-30.el6.ppc64.rpm
+python-magic-5.04-30.el6.ppc64.rpm
+
+s390x:
+file-5.04-30.el6.s390x.rpm
+file-debuginfo-5.04-30.el6.s390.rpm
+file-debuginfo-5.04-30.el6.s390x.rpm
+file-devel-5.04-30.el6.s390.rpm
+file-devel-5.04-30.el6.s390x.rpm
+file-libs-5.04-30.el6.s390.rpm
+file-libs-5.04-30.el6.s390x.rpm
+python-magic-5.04-30.el6.s390x.rpm
+
+x86_64:
+file-5.04-30.el6.x86_64.rpm
+file-debuginfo-5.04-30.el6.i686.rpm
+file-debuginfo-5.04-30.el6.x86_64.rpm
+file-devel-5.04-30.el6.i686.rpm
+file-devel-5.04-30.el6.x86_64.rpm
+file-libs-5.04-30.el6.i686.rpm
+file-libs-5.04-30.el6.x86_64.rpm
+python-magic-5.04-30.el6.x86_64.rpm
+
+Red Hat Enterprise Linux Server Optional (v. 6):
+
+i386:
+file-debuginfo-5.04-30.el6.i686.rpm
+file-static-5.04-30.el6.i686.rpm
+
+ppc64:
+file-debuginfo-5.04-30.el6.ppc64.rpm
+file-static-5.04-30.el6.ppc64.rpm
+
+s390x:
+file-debuginfo-5.04-30.el6.s390x.rpm
+file-static-5.04-30.el6.s390x.rpm
+
+x86_64:
+file-debuginfo-5.04-30.el6.x86_64.rpm
+file-static-5.04-30.el6.x86_64.rpm
+
+Red Hat Enterprise Linux Workstation (v. 6):
+
+Source:
+file-5.04-30.el6.src.rpm
+
+i386:
+file-5.04-30.el6.i686.rpm
+file-debuginfo-5.04-30.el6.i686.rpm
+file-devel-5.04-30.el6.i686.rpm
+file-libs-5.04-30.el6.i686.rpm
+python-magic-5.04-30.el6.i686.rpm
+
+x86_64:
+file-5.04-30.el6.x86_64.rpm
+file-debuginfo-5.04-30.el6.i686.rpm
+file-debuginfo-5.04-30.el6.x86_64.rpm
+file-devel-5.04-30.el6.i686.rpm
+file-devel-5.04-30.el6.x86_64.rpm
+file-libs-5.04-30.el6.i686.rpm
+file-libs-5.04-30.el6.x86_64.rpm
+python-magic-5.04-30.el6.x86_64.rpm
+
+Red Hat Enterprise Linux Workstation Optional (v. 6):
+
+i386:
+file-debuginfo-5.04-30.el6.i686.rpm
+file-static-5.04-30.el6.i686.rpm
+
+x86_64:
+file-debuginfo-5.04-30.el6.x86_64.rpm
+file-static-5.04-30.el6.x86_64.rpm
+
+These packages are GPG signed by Red Hat for security.  Our key and
+details on how to verify the signature are available from
+<a href="https://access.redhat.com/security/team/key/">https://access.redhat.com/security/team/key/</a>
+
+7. References:
+
+<a href="https://access.redhat.com/security/cve/CVE-2014-3538">https://access.redhat.com/security/cve/CVE-2014-3538</a>
+<a href="https://access.redhat.com/security/cve/CVE-2014-3587">https://access.redhat.com/security/cve/CVE-2014-3587</a>
+<a href="https://access.redhat.com/security/cve/CVE-2014-3710">https://access.redhat.com/security/cve/CVE-2014-3710</a>
+<a href="https://access.redhat.com/security/cve/CVE-2014-8116">https://access.redhat.com/security/cve/CVE-2014-8116</a>
+<a href="https://access.redhat.com/security/cve/CVE-2014-8117">https://access.redhat.com/security/cve/CVE-2014-8117</a>
+<a href="https://access.redhat.com/security/cve/CVE-2014-9620">https://access.redhat.com/security/cve/CVE-2014-9620</a>
+<a href="https://access.redhat.com/security/cve/CVE-2014-9653">https://access.redhat.com/security/cve/CVE-2014-9653</a>
+<a href="https://access.redhat.com/security/updates/classification/#moderate">https://access.redhat.com/security/updates/classification/#moderate</a>
+<a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/6.8_Release_Notes/index.html">https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/6.8_Release_Notes/index.html</a>
+<a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/6.8_Technical_Notes/index.html">https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/6.8_Technical_Notes/index.html</a>
+
+8. Contact:
+
+The Red Hat security contact is &lt;secalert@redhat.com&gt;. More contact
+details at <a href="https://access.redhat.com/security/team/contact/">https://access.redhat.com/security/team/contact/</a>
+
+Copyright 2016 Red Hat, Inc.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iD8DBQFXMi7JXlSAg2UNWIIRAklWAJ9Jt2pZdQ/rY6HUCPDDJjvHLENrmACgtQz9
+K6etaZq4Ij7gvyugZbR0OV0=
+=aYm2
+-----END PGP SIGNATURE-----
+
+
+-- 
+Enterprise-watch-list mailing list
+Enterprise-watch-list@redhat.com
+<a href="https://www.redhat.com/mailman/listinfo/enterprise-watch-list">https://www.redhat.com/mailman/listinfo/enterprise-watch-list</a>
+
+</PRE>
+<NOINDEX>
+</div>
+<td width='10' align=left valign=top ><img src='/w3_shared/images/odot.gif' width='10' height='500'></td></tr></table>
+
+<!-- start navigation -->
+<div id="navigation">
+<h2 class="access">Start of left navigation</h2>
+	<!-- left nav -->
+	<div id="left-nav">
+	<div class="top-level">
+	<a href="http://w3.ibm.com/services/">Global Technology Services</a>
+	<a href="http://www.iss.net">Internet Security Systems</a>
+	<a id="site-home" href="https://advisories.secintel.ibm.com/">Security Advisories home</a>
+	<a href="/adv_database.php">&middot; Database</a>
+	<a href="/faq.php">&middot; FAQ</a>
+	<a href="/printCSV.php">&middot; Feeds</a>
+	<a href="/lists.php">&middot; Mailing lists</a>
+	<a href="/prods.php">&middot; Supported products</a>
+	</div>
+	</div>
+</div>
+
+</body></html>
