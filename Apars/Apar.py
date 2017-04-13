@@ -6,18 +6,21 @@ import sys
 import pprint
 
 # Defined architecture
-Arch='x86_64'
+arch='x86_64'
+
+# List of candidate
+candidate={}
 
 # Definded interested names of Product  (Mostly it should be RHEL Servers v. X)
-product_interest = [
+products_interest = [
     'Red Hat Enterprise Linux',
-    'Red Hat Enterprise Linux (v. 5 server)',
+    # 'Red Hat Enterprise Linux (v. 5 server)',
     'Red Hat Enterprise Linux Server (v. 6)',
-    'Red Hat Enterprise Linux Server (v. 7)',
-    'Red Hat Enterprise Linux Desktop (v. 6)',
+    #'Red Hat Enterprise Linux Server (v. 7)',
+    #'Red Hat Enterprise Linux Desktop (v. 6)',
 ]
 # Definded not interested names of Product, which we can skip
-product_not_interest = (
+products_not_interest = (
     'Oracle Java for Red Hat Enterprise Linux',
     'Red Hat Enterprise Linux Supplementary',
     'Red Hat Enterprise Linux Server Supplementary (v. 6)',
@@ -66,16 +69,28 @@ while True:
     if 'Package List:' in line:
         Package=line
         while True:
-            line = file.readline()
-            line = line.lstrip()
 
+    # Format lines (strip method for whitespace from left side and colon from right side)
+            line = file.readline()
+            line = line.lstrip().rstrip(':\n')
             if len(line) == 0:
                 continue
-        # It should be works with loop
-            if any(product_interest in line):
 
-                candidate = line
+            for i in products_interest:
 
+                if i == line:
+                    candidate[i] = ""
+                    package=[]
+                    while True:
+                        line = file.readline()
+                        line = line.lstrip().rstrip(':\n')
+
+                        if arch in line:
+                            while len(line) is not 0:
+                                line = file.readline()
+                                line = line.lstrip()
+                                package.append(line)
+                                candidate[i].values(package)
 
     else:
         continue
