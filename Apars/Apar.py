@@ -75,7 +75,7 @@ while True:
             if any(product_interest in line):
 
                 candidate = line
-                #Test
+
 
     else:
         continue
