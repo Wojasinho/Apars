@@ -217,13 +217,12 @@ Red Hat Enterprise Linux Server (v. 6):
 Source:
 file-5.04-30.el6.src.rpm
 
-i386:
-file-5.04-30.el6.i686.rpm
+x86_64:
 file-debuginfo-5.04-30.el6.i686.rpm
+file-debuginfo-5.04-30.el6.x86_64.rpm
 file-devel-5.04-30.el6.i686.rpm
-file-libs-5.04-30.el6.i686.rpm
-python-magic-5.04-30.el6.i686.rpm
-
+file-devel-5.04-30.el6.x86_64.rpm
+file-static-5.04-30.el6.x86_64.rpm
 
 
 Red Hat Enterprise Linux Desktop Optional (v. 6):

@@ -79,19 +79,20 @@ while True:
             for i in products_interest:
 
                 if i == line:
-                    candidate[i] = ""
-                    package=[]
+                    candidate[i] = line
+                    # package=[]
                     while True:
                         line = file.readline()
                         line = line.lstrip().rstrip(':\n')
 
                         if arch in line:
                             while len(line) is not 0:
+
                                 line = file.readline()
                                 line = line.lstrip()
-                                package.append(line)
-                                candidate[i].values(package)
+                                # candidate[i].values(str(line))
 
+                                print (1)
     else:
         continue
 
