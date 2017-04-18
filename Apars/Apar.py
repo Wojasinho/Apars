@@ -12,13 +12,13 @@ arch='x86_64'
 candidate={}
 
 # Definded interested names of Product  (Mostly it should be RHEL Servers v. X)
-products_interest = [
+products_interest = (
     'Red Hat Enterprise Linux',
     # 'Red Hat Enterprise Linux (v. 5 server)',
     'Red Hat Enterprise Linux Server (v. 6)',
     #'Red Hat Enterprise Linux Server (v. 7)',
-    #'Red Hat Enterprise Linux Desktop (v. 6)',
-]
+    'Red Hat Enterprise Linux Desktop (v. 6)',
+)
 # Definded not interested names of Product, which we can skip
 products_not_interest = (
     'Oracle Java for Red Hat Enterprise Linux',
@@ -32,6 +32,9 @@ sys.path.append(('/home/wojasinho/Projects/apars/Apars/'))
 
 # print(sys.path)
 
+# Defined char which, you can skip in line
+bad = ('@','<','!','#','{','}',',','.',';',':')
+
 file = open('adv_database.php?adv_id=65438')
 
 while True:
@@ -39,7 +42,10 @@ while True:
     line = line.lstrip()
 
     # Skip white line
-    if len(line)==0 :
+    if len(line)==0:
+        continue
+    # Skip first 'bad' char in line :
+    if line[0] in bad :
         continue
 
     # Find on raw text 'Synopsis' (concept of patch)
@@ -76,25 +82,35 @@ while True:
             if len(line) == 0:
                 continue
 
-            for i in products_interest:
 
-                if i == line:
-                    candidate[i] = line
-                    # package=[]
-                    while True:
-                        line = file.readline()
-                        line = line.lstrip().rstrip(':\n')
+            if line in products_interest:
+                print (line)
+            # for i in products_interest:
+            #
+            #     if i == line:
+            #         candidate[i] = line
+            #         # package=[]
+            #         while True:
+            #             line = file.readline()
+            #             line = line.lstrip().rstrip(':\n')
+            #
+            #             if arch in line:
+            #                 while len(line) is not 0:
+            #                     line = file.readline()
+            #                     line = line.lstrip()
+            #                     if (line.split('.')[-2] == arch) :
+            #                         print (line)
+            #                     if len(line)==0:
+            #                         False
+            #
 
-                        if arch in line:
-                            while len(line) is not 0:
-
-                                line = file.readline()
-                                line = line.lstrip()
-                                # candidate[i].values(str(line))
-
-                                print (1)
-    else:
-        continue
+                        # else :
+                        #     continue
 
 
+                                # else
+                                #     line = file.readline()
+                                #     line = line.lstrip()
 
+    # else:
+    #     continue
