@@ -1,16 +1,10 @@
 # Script which can pattern available packages on server (APARS == patch package supported by RHEL)
 # Requirement enviroment for script Python 2.6.6
 
-import re
-import pprint
 import os
 import shutil
 import sys
-import wget
-
-
-
-
+import urllib2
 
 
 class Apar(object):
@@ -21,11 +15,10 @@ class Apar(object):
 
         # Number of interested APARS in txt file
         self.arg = sys.argv[1]
-        self.arg2= sys.argv[2]
+        # self.arg2= sys.argv[2]
 
         # Defined architecture
         self.arch = 'x86_64'
-
 
     def genereteFile(self):
         # Aim of these function is  generate n files which can we upload to Selenium
@@ -40,19 +33,38 @@ class Apar(object):
         fileapar = open(self.arg, 'r')
         newpath = 'selenium/'
 
-        for number in fileapar :
+        for number in fileapar:
+            if len(number) == 0:
+                break
             if not os.path.exists(newpath):
                 os.makedirs(newpath)
-            tempvar = template.replace('103880775',number)
-            nrapar = open(number,'w')
+
+            tempvar = template.replace('103880775', number)
+            nrapar = open(number, 'w')
             nrapar.write(tempvar)
             nrapar.close()
-            shutil.move(number, newpath+number)
+            shutil.move(number, newpath + number)
 
+    def download(self):
+
+        advlist=open(self.arg, 'r')
+        newpath = 'adv/'
+        for url in advlist:
+            if len(url) == 0:
+                break
+            if not os.path.exists(url):
+                os.makedirs(url)
+            url.rstrip('\r\n')
+            response = urllib2.urlopen(url,)
+            content = response.read()
+            adv = open(url, 'w')
+            adv.write(content)
+            adv.close()
+            shutil.move(url,newpath + url)
 
     def analyse(self):
 
-        advlist = open(self.arg2, 'r')
+        advlist = open(self.arg, 'r')
         # advlist = open('advlist.txt','r')
 
 
@@ -64,7 +76,7 @@ class Apar(object):
         # Defined interested names of Product  (Mostly it should be RHEL Servers v. X)
         products_interest = (
             'Red Hat Enterprise Linux Workstation Optional (v. 6)',
-             'Red Hat Enterprise Linux Workstation (v. 6)',
+            'Red Hat Enterprise Linux Workstation (v. 6)',
         )
         # Defined not interested names of Product, which we can skip
         products_not_interest = (
@@ -90,8 +102,8 @@ class Apar(object):
             # path = '/home/Wojasinho/Programming/apars/adv/' +
             path = '/home/wojasinho/Projects/apars/Apars/'
             print("Now we are analysing " + i)
-            i=i.rstrip('\n')
-            self.apars = open(i,'r')
+            i = i.rstrip('\n')
+            self.apars = open(i, 'r')
             # file = open('/home/Wojasinho/Programming/apars/adv/adv_database.php?adv_id=65438')
 
             while True:
@@ -183,10 +195,7 @@ class Apar(object):
 
 
 #
-# test = Apar()
+test = Apar()
 # test.genereteFile()
+test.download()
 # test.analyse()
-
-
-url = 'http://www.onet.pl.com'
-filename=wget.download(url)
