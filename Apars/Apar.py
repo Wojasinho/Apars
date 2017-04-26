@@ -8,15 +8,21 @@ import urllib2
 
 
 class Apar(object):
+
     def __init__(self):
         # Append paths for Files with APARS
-        sys.path.append(('/home/Wojasinho/Programming/apars/Apars/'))
+        sys.path.append(('/home/Wojasinho/Programming/apars/'))
         sys.path.append(('/home/wojasinho/Project/apars/Apars/'))
+        sys.path.append(('/home/wojasinho/Project/apars/Apars/apar_to_analyse/'))
 
         # Number of interested APARS in txt file
-        self.arg = sys.argv[1]
+        # self.arg = sys.argv[1]
         # self.arg2= sys.argv[2]
 
+        self.arg = open('nr.txt', 'r')
+        self.arg2 = open('advlist.txt', 'r')
+
+        self.newpath = 'apar_to_analyse/'
         # Defined architecture
         self.arch = 'x86_64'
 
@@ -31,15 +37,21 @@ class Apar(object):
         template = open('template.html').read()
 
         fileapar = open(self.arg, 'r')
-        newpath = 'selenium/'
+        newpath = 'apar_to_selenium/'
 
         for number in fileapar:
+
             if len(number) == 0:
                 break
+
+            if number == '\n':
+                continue
+
             if not os.path.exists(newpath):
                 os.makedirs(newpath)
 
-            tempvar = template.replace('103880775', number)
+            tempvar = template.replace('123456789', number)
+            number=number.rstrip()
             nrapar = open(number, 'w')
             nrapar.write(tempvar)
             nrapar.close()
@@ -47,36 +59,50 @@ class Apar(object):
 
     def download(self):
 
-        advlist=open(self.arg, 'r')
-        newpath = 'adv/'
-        for url in advlist:
-            if len(url) == 0:
-                break
-            if not os.path.exists(url):
-                os.makedirs(url)
-            url.rstrip('\r\n')
-            response = urllib2.urlopen(url,)
+        nr = open(self.arg, 'r')
+        advlist = open(self.arg2, 'r')
+
+        for number in nr:
+
+            advline = advlist.readline()
+
+            number = number.rstrip()
+
+            if len(advline) == 0:
+                    break
+
+            if not os.path.exists(self.newpath):
+                os.makedirs(self.newpath)
+
+            adv = open(number , 'w')
+
+            response = urllib2.urlopen(advline,)
             content = response.read()
-            adv = open(url, 'w')
+
             adv.write(content)
             adv.close()
-            shutil.move(url,newpath + url)
+            shutil.move(number , self.newpath + number)
 
     def analyse(self):
 
-        advlist = open(self.arg, 'r')
-        # advlist = open('advlist.txt','r')
-
+        nr= self.arg
 
 
         # List of candidate
         candidate = {}
         products = []
+        package=[]
 
         # Defined interested names of Product  (Mostly it should be RHEL Servers v. X)
         products_interest = (
-            'Red Hat Enterprise Linux Workstation Optional (v. 6)',
-            'Red Hat Enterprise Linux Workstation (v. 6)',
+            'Red Hat Enterprise Linux Server (v. 4)',
+            'Red Hat Enterprise Linux Server (v. 5)',
+            'Red Hat Enterprise Linux Server (v. 6)',
+            'Red Hat Enterprise Linux Server (v. 7)',
+            'Oracle Java for Red Hat Enterprise Linux',
+            'Red Hat Enterprise Linux Supplementary',
+            'Red Hat Enterprise Linux Server Supplementary (v. 6)',
+            'Red Hat Enterprise Linux Server Supplementary (v. 7)',
         )
         # Defined not interested names of Product, which we can skip
         products_not_interest = (
@@ -96,15 +122,19 @@ class Apar(object):
         # Defined path where you located row apars
 
 
-        for i in advlist:
+        for self.number in nr:
+            print("*******************************************************************")
+
+            checker = []
+            products=[]
+
+
 
             # Loop for each apar in directory
-            # path = '/home/Wojasinho/Programming/apars/adv/' +
-            path = '/home/wojasinho/Projects/apars/Apars/'
-            print("Now we are analysing " + i)
-            i = i.rstrip('\n')
-            self.apars = open(i, 'r')
-            # file = open('/home/Wojasinho/Programming/apars/adv/adv_database.php?adv_id=65438')
+            start=("Now we are analysing " + self.number)
+            self.number = self.number.rstrip('\n')
+            self.apars = open(self.newpath+self.number, 'r')
+
 
             while True:
 
@@ -121,15 +151,15 @@ class Apar(object):
                 # Find on raw text 'Synopsis' (concept of patch)
                 if line[0:8] == 'Synopsis':
                     line = line.rstrip('\n')
-                    Synopsis = line
+                    self.Synopsis = line
 
-                    print(Synopsis)
+                    # print(Synopsis)
                     continue
 
                 # Find on raw text 'Advisory ID' (ex. RHSA-2016:0760-01)
                 if 'Advisory ID:       ' in line:
-                    Advisory_ID = line
-                    print(Advisory_ID)
+                    self.Advisory_ID = line
+                    # print(Advisory_ID)
                     continue
 
                 # Find on raw text interest Product (ex.Product    : Red Hat Enterprise Linux)
@@ -140,7 +170,7 @@ class Apar(object):
 
                 # Find on raw text date
                 if 'Issue date       :' in line:
-                    date = line
+                    self.date = line
                     continue
 
                 if 'Package List:' in line:
@@ -150,7 +180,24 @@ class Apar(object):
             while True:
 
                 if "7. References" in line:
+
+                    if len(checker) > 0:
+                        out=("Apar : " + self.number +" "+ "is applicable ")
+                        # output = open("output.txt", 'w')
+                        # output.write(out)
+                        # output.close()
+                        print (start)
+                        print (self.Synopsis)
+                        print (self.Advisory_ID)
+                        # print (date)
+                        # print (finish)
+                        for output in products:
+                            print (output)
+                    else:
+                        print("Apar : " + self.number +" "+ "is not applicable")
+
                     break
+
                 # Var for next loop 'while'
                 trigger = True
 
@@ -166,8 +213,11 @@ class Apar(object):
                     continue
 
                 if line in products_interest:
-                    print(line)
+
+                    temp=line
+                    checker.append(line)
                     products.append(line)
+
 
                     while trigger:
                         line = self.apars.readline()
@@ -177,6 +227,7 @@ class Apar(object):
                             continue
 
                         if self.arch in line:
+
 
                             while len(line) > 0:
 
@@ -189,13 +240,19 @@ class Apar(object):
 
                                 if line.split('.')[-2] == self.arch:
                                     line = line.lstrip().rstrip(':\r\n')
-                                    print(line)
-            print("\n")
-            print("Analyse process of " + i + " has been finshed \n\n")
+                                    products.append(line)
+                                    # package=package.append(line)
+                                    # candidate[temp]=package
+                                    # print (line)
+                                    # print(self.number)
+            finish = ("Analyse process of " + self.number + " has been finshed \n\n")
+
+    def applicable(self):
+        pass
 
 
 #
 test = Apar()
 # test.genereteFile()
-test.download()
-# test.analyse()
+# test.download()
+test.analyse()

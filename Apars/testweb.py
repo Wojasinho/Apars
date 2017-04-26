@@ -3,6 +3,9 @@ import urllib2
 import sys
 import os
 import shutil
+sys.path.append(('/home/wojasinho/Project/apars/Apars/'))
+
+
 # url = 'https://advisories.secintel.ibm.com/adv_database.php?adv_id=67667'
 # # url='http://www.wp.pl'
 # # filename = wget.download(url)
@@ -15,21 +18,48 @@ import shutil
 # f = open( "adv_database.php?adv_id=6", 'w' )
 # f.write( content )
 # f.close()
-sys.path.append(('/home/wojasinho/Project/apars/Apars/'))
+import os
+import  codecs
 
+nr = open('nr.txt','r',)
 advlist=open('advlist.txt', 'r')
-newpath = 'adv/'
-for url in advlist:
-    i=url
-    i.rstrip(os.linesep)
-    if len(url) == 0:
+newpath = 'apar_to_analyse/'
+
+for number in nr:
+    advline=advlist.readline()
+    number=number.rstrip()
+
+    if len(advline) == 0:
         break
-    if not os.path.exists(url):
-        os.makedirs(url)
-    url.strip('\r\n')
-    response = urllib2.urlopen(url, )
+
+    if not os.path.exists(newpath):
+        os.makedirs(newpath)
+    adv = open(number, 'w')
+
+    response = urllib2.urlopen(advline, )
     content = response.read()
-    adv = open(url, 'w')
+
     adv.write(content)
     adv.close()
-    # shutil.move(url, newpath + url)
+    shutil.move(number, newpath + number)
+
+
+# template = open('template.html').read()
+#
+# fileapar = open('nr.txt', 'r')
+# newpath = 'selenium/'
+#
+# for number in fileapar:
+#     if len(number) == 0:
+#         break
+#     if not os.path.exists(newpath):
+#         os.makedirs(newpath)
+#
+#     if number == '\n'  :
+#         continue
+#
+#     tempvar = template.replace('123456789', number)
+#     nrapar = open(number, 'w')
+#     nrapar.write(tempvar)
+#     nrapar.close()
+#     shutil.move(number, newpath + number)
