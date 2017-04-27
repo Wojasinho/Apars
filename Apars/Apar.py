@@ -1,5 +1,43 @@
-# Script which can pattern available packages on server (APARS == patch package supported by RHEL)
-# Requirement enviroment for script Python 2.6.6
+"""
+Script which can pattern available packages on server (APARS == patch package supported by RHEL) for dedicated products
+and architecture.
+
+Requirement enviroment for script Python 2.6.6
+Requirement access : Cirats
+
+Author: Wojciech Koszela
+Contact: WKoszela@pl.ibm.com
+Company: IBM POLAND
+
+
+
+Instruction :
+
+
+It looks like a lot of steps, don't worry it's really fast. You will save couple of time.
+
+1.  Create enviroment :
+        1.1.    Create directory and copy there "Apar.py
+        1.2.    Write your number of Apars to file nr.txt in directory
+        1.3.    Add your directory to Apar.py (sys.path.append('path') -> line 46
+         
+2.  Generete files and apply to Selenium
+        2.1.    330,331 lines - commented,  329 line uncommented
+        2.2.    execute from terminal: python Apar.py
+3.  Log in to Cirats / apply to Selenium your files with "s" at the end of name("nr_apar_s) and run Selenium
+4.  Go to Mozilla Firefox -> Ctrl+Shift+h , tab "Today", filter by name, select and copy your last address to new file 
+        advlist.txt - addresses started from  ( ex.https://advisories.secintel.ibm.com/adv_database.php?adv_id=70267).
+5.  Download row source Apars
+        5.1.    329,331 lines - commented,  330 line uncommented
+        5.2.    It's longest operation in these procedure, depends of network connection, server status etc.
+        5.3     from bash terminal : python Apar.py
+6.  Analyse output
+        6.1     329,330 lines - commented,  331 line uncommented
+        6.2     Forward output to txt file
+        6.3     execute from terminal: python Apar.py > output.txt
+    
+
+"""
 
 import os
 import shutil
@@ -10,34 +48,53 @@ import urllib2
 class Apar(object):
 
     def __init__(self):
-        # Append paths for Files with APARS
-        sys.path.append(('/home/Wojasinho/Programming/apars/'))
-        sys.path.append(('/home/wojasinho/Project/apars/Apars/'))
-        sys.path.append(('/home/wojasinho/Project/apars/Apars/apar_to_analyse/'))
 
-        # Number of interested APARS in txt file
+        # Append your local paths for script files
+        sys.path.append(('/home/wojasinho/Project/apars/Apars/'))
+
+        # sys.path.append(('/home/wojasinho/Project/apars/Apars/apar_to_analyse/'))
+
+        # Number of interested APARS in txt file (argument)
         # self.arg = sys.argv[1]
+
+        # List of interested link in txt file (argument)
         # self.arg2= sys.argv[2]
 
         self.arg = open('nr.txt', 'r')
         self.arg2 = open('advlist.txt', 'r')
 
         self.newpath = 'apar_to_analyse/'
-        # Defined architecture
+
+        # Defined interested architecture (noarch, x86_64, ppc64le, ppc64, s390x,)
         self.arch = 'x86_64'
 
     def genereteFile(self):
-        # Aim of these function is  generate n files which can we upload to Selenium
-        # Selenium can open automatically our source code and can give us row description of Apar
-        # which we can analyse in next step. We have to repeat these process with n Apars, so we
-        # have to generate  file for each Apars number
+
+        """
+        # Aim of these method is to  generate n files which can we upload to Selenium (plugin in Mozilla Firefox)
+        # Selenium can open automatically our source code which we generete below and can give us row description of Apar
+        # which we can download and analyse in next step ( method download(), analyse(). We have to repeat these process
+        # with n Apars, so we have to generate  file for each Apar number
+        """
+
+
+
 
         # Template from Selenium
-        # These template.html can open automatically in Cirats our Apar, we have to
+
+        # These template.html can open automatically in Cirats our Apar, we have to generete n files (such as
+        # template.html) with changed apar number inside in code, then we can apply these file to Selenium, which can
+        # open n pages on Firefox.
+
         template = open('template.html').read()
 
-        fileapar = open(self.arg, 'r')
+        fileapar = self.arg
+
         newpath = 'apar_to_selenium/'
+
+        # Loop which replace number Apar from file nr.txt and write each separete file to directory - 'apar_to_selenium/'
+
+
 
         for number in fileapar:
 
@@ -55,12 +112,23 @@ class Apar(object):
             nrapar = open(number, 'w')
             nrapar.write(tempvar)
             nrapar.close()
-            shutil.move(number, newpath + number)
+            shutil.move(number, newpath + number+"s")
 
     def download(self):
+        """
+        
+        Aim of these method is to download source code of each apar's website. The download() method save it in
+        directory 'apar_to_analyse'. It's a longest operation of these Class. We need to pass to run these method, two
+        arguments (nr.txt - list of apar's number, advlist.txt - list of links (from history Mozilla Firefox, which
+        was opened by Selenium (in previous method we genereted file which were uploaded to Selenium). Now we need output
+        from history and paste to advlist.txt
+        
+        """
 
-        nr = open(self.arg, 'r')
-        advlist = open(self.arg2, 'r')
+
+
+        nr = self.arg
+        advlist = self.arg2
 
         for number in nr:
 
@@ -84,7 +152,13 @@ class Apar(object):
             shutil.move(number , self.newpath + number)
 
     def analyse(self):
-
+        """
+        
+        # Aim of these method is to analyse row source of each apars in format html. We can defined interested architecture
+        # and products(solution). These method analyse html each apar seperate . Script can find Advisory_ID, Product,
+        # Issue date, and dedicated package for architecture and product.
+        
+        """
         nr= self.arg
 
 
@@ -183,9 +257,6 @@ class Apar(object):
 
                     if len(checker) > 0:
                         out=("Apar : " + self.number +" "+ "is applicable ")
-                        # output = open("output.txt", 'w')
-                        # output.write(out)
-                        # output.close()
                         print (start)
                         print (self.Synopsis)
                         print (self.Advisory_ID)
@@ -193,6 +264,7 @@ class Apar(object):
                         # print (finish)
                         for output in products:
                             print (output)
+                        print (out)
                     else:
                         print("Apar : " + self.number +" "+ "is not applicable")
 
@@ -245,14 +317,15 @@ class Apar(object):
                                     # candidate[temp]=package
                                     # print (line)
                                     # print(self.number)
+
             finish = ("Analyse process of " + self.number + " has been finshed \n\n")
 
-    def applicable(self):
-        pass
 
 
-#
-test = Apar()
-# test.genereteFile()
-# test.download()
-test.analyse()
+#Construct new instance
+apar = Apar()
+
+# Create new method - run script only with one method
+# apar.genereteFile()
+# apar.download()
+apar.analyse()
