@@ -71,10 +71,10 @@ class Apar(object):
     def genereteFile(self):
 
         """
-        # Aim of these method is to  generate n files which can we upload to Selenium (plugin in Mozilla Firefox)
-        # Selenium can open automatically our source code which we generete below and can give us row description of Apar
-        # which we can download and analyse in next step ( method download(), analyse(). We have to repeat these process
-        # with n Apars, so we have to generate  file for each Apar number
+        Aim of these method is to  generate n files which can we upload to Selenium (plugin in Mozilla Firefox)
+        Selenium can open automatically our source code which we generete below and can give us row description of Apar
+        which we can download and analyse in next step ( method download(), analyse(). We have to repeat these process
+        with n Apars, so we have to generate  file for each Apar number
         """
 
 
@@ -154,9 +154,9 @@ class Apar(object):
     def analyse(self):
         """
         
-        # Aim of these method is to analyse row source of each apars in format html. We can defined interested architecture
-        # and products(solution). These method analyse html each apar seperate . Script can find Advisory_ID, Product,
-        # Issue date, and dedicated package for architecture and product.
+        Aim of these method is to analyse row source of each apars in format html. We can defined interested architecture
+        and products(solution). These method analyse html each apar seperate . Script can find Advisory_ID, Product,
+        Issue date, and dedicated package for architecture and product.
         
         """
         nr= self.arg
