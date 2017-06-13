@@ -17,14 +17,14 @@ Instruction :
 It looks like a lot of steps, don't worry it's really fast. You will save couple of time.
 
 1.  Create enviroment :
-        1.1.    Create directory and copy there "Apar.py
+        1.1.    Create directory and copy there Apar.py
         1.2.    Write your number of Apars to file nr.txt in directory
         1.3.    Add your directory to Apar.py (sys.path.append('path') -> line 46
          
 2.  Generete files and apply to Selenium
         2.1.    330,331 lines - commented,  329 line uncommented
         2.2.    execute from terminal: python Apar.py
-3.  Log in to Cirats / apply to Selenium your files with "s" at the end of name("nr_apar_s) and run Selenium
+3.  Log in to Cirats / apply to Selenium your files with "s" at the end of name("i_nr_apar_s) and run Selenium
 4.  Go to Mozilla Firefox -> Ctrl+Shift+h , tab "Today", filter by name, select and copy your last address to new file 
         advlist.txt - addresses started from  ( ex.https://advisories.secintel.ibm.com/adv_database.php?adv_id=70267).
 5.  Download row source Apars
@@ -94,9 +94,9 @@ class Apar(object):
 
         # Loop which replace number Apar from file nr.txt and write each separete file to directory - 'apar_to_selenium/'
 
+        i=1
 
-
-        for number in fileapar:
+        for i,number in enumerate(fileapar):
 
             if len(number) == 0:
                 break
@@ -112,7 +112,53 @@ class Apar(object):
             nrapar = open(number, 'w')
             nrapar.write(tempvar)
             nrapar.close()
-            shutil.move(number, newpath + number+"s")
+            shutil.move(number, newpath + str(i) + '_'+ number)
+
+    def genereteextension(self):
+
+        """
+        Aim of these method is to  generate n files which can we upload to Selenium (plugin in Mozilla Firefox)
+        Selenium can open automatically our source code which we generete below and can give us row description of Apar
+        which we can download and analyse in next step ( method download(), analyse(). We have to repeat these process
+        with n Apars, so we have to generate  file for each Apar number
+        """
+
+
+
+
+        # Template from Selenium
+
+        # These template.html can open automatically in Cirats our Apar, we have to generete n files (such as
+        # template.html) with changed apar number inside in code, then we can apply these file to Selenium, which can
+        # open n pages on Firefox.
+
+        template = open('template_extension').read()
+
+        fileapar = self.arg
+
+        newpath = 'apar_to_extension/'
+
+        # Loop which replace number Apar from file nr.txt and write each separete file to directory - 'apar_to_selenium/'
+
+        i=1
+
+        for i,number in enumerate(fileapar):
+
+            if len(number) == 0:
+                break
+
+            if number == '\n':
+                continue
+
+            if not os.path.exists(newpath):
+                os.makedirs(newpath)
+
+            tempvar = template.replace('104317335', number)
+            number=number.rstrip()
+            nrapar = open(number, 'w')
+            nrapar.write(tempvar)
+            nrapar.close()
+            shutil.move(number, newpath + str(i)  + number)
 
     def download(self):
         """
@@ -130,7 +176,7 @@ class Apar(object):
         nr = self.arg
         advlist = self.arg2
 
-        for number in nr:
+        for j,number in enumerate(nr):
 
             advline = advlist.readline()
 
@@ -149,7 +195,7 @@ class Apar(object):
 
             adv.write(content)
             adv.close()
-            shutil.move(number , self.newpath + number)
+            shutil.move(number , self.newpath+str(j)+ "_" + number)
 
     def analyse(self):
         """
@@ -173,10 +219,7 @@ class Apar(object):
             'Red Hat Enterprise Linux Server (v. 5)',
             'Red Hat Enterprise Linux Server (v. 6)',
             'Red Hat Enterprise Linux Server (v. 7)',
-            'Oracle Java for Red Hat Enterprise Linux',
-            'Red Hat Enterprise Linux Supplementary',
-            'Red Hat Enterprise Linux Server Supplementary (v. 6)',
-            'Red Hat Enterprise Linux Server Supplementary (v. 7)',
+
         )
         # Defined not interested names of Product, which we can skip
         products_not_interest = (
@@ -196,7 +239,7 @@ class Apar(object):
         # Defined path where you located row apars
 
 
-        for self.number in nr:
+        for i, self.number in enumerate(nr):
             print("*******************************************************************")
 
             checker = []
@@ -207,7 +250,7 @@ class Apar(object):
             # Loop for each apar in directory
             start=("Now we are analysing " + self.number)
             self.number = self.number.rstrip('\n')
-            self.apars = open(self.newpath+self.number, 'r')
+            self.apars = open(self.newpath+str(i)+"_"+self.number, 'r')
 
 
             while True:
@@ -322,6 +365,8 @@ class Apar(object):
 
 
 
+
+
 #Construct new instance
 apar = Apar()
 
@@ -329,3 +374,4 @@ apar = Apar()
 # apar.genereteFile()
 # apar.download()
 apar.analyse()
+# apar.genereteextension()
