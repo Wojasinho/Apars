@@ -118,9 +118,7 @@ class Apar(object):
 
         """
         Aim of these method is to  generate n files which can we upload to Selenium (plugin in Mozilla Firefox)
-        Selenium can open automatically our source code which we generete below and can give us row description of Apar
-        which we can download and analyse in next step ( method download(), analyse(). We have to repeat these process
-        with n Apars, so we have to generate  file for each Apar number
+        Selenium can open each Apar and extend automatically.
         """
 
 
@@ -159,6 +157,47 @@ class Apar(object):
             nrapar.write(tempvar)
             nrapar.close()
             shutil.move(number, newpath + str(i)  + number)
+
+    def closeapar(self):
+
+        """
+        Aim of these method is to  generate n files which can we upload to Selenium (plugin in Mozilla Firefox)
+        Selenium can open close automatically our Apar and close it.
+        """
+
+        # Template from Selenium
+
+        # These template.html can open automatically in Cirats our Apar, we have to generete n files (such as
+        # template.html) with changed apar number inside in code, then we can apply these file to Selenium, which can
+        # open n pages on Firefox.
+
+        template = open('template_close').read()
+
+        fileapar = self.arg
+
+        newpath = 'apar_to_close/'
+
+        # Loop which replace number Apar from file nr.txt and write each separete file to directory - 'apar_to_selenium/'
+
+        i = 1
+
+        for i, number in enumerate(fileapar):
+
+            if len(number) == 0:
+                break
+
+            if number == '\n':
+                continue
+
+            if not os.path.exists(newpath):
+                os.makedirs(newpath)
+
+            tempvar = template.replace('104223679', number)
+            number = number.rstrip()
+            nrapar = open(number, 'w')
+            nrapar.write(tempvar)
+            nrapar.close()
+            shutil.move(number, newpath + str(i) + number)
 
     def download(self):
         """
@@ -373,5 +412,6 @@ apar = Apar()
 # Create new method - run script only with one method
 # apar.genereteFile()
 # apar.download()
-apar.analyse()
+# apar.analyse()
 # apar.genereteextension()
+apar.closeapar()
